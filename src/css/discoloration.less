@@ -1,0 +1,51 @@
+.discoloration {
+  &-container {
+    direction: ltr;
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+    touch-action: none;
+    user-select: none;
+
+    img,
+    canvas {
+      display: block;
+      height: 100%;
+      image-orientation: 0deg;
+      max-height: none !important;
+      max-width: none !important;
+      min-height: 0 !important;
+      min-width: 0 !important;
+      width: 100%;
+    }
+
+    img{
+      filter: grayscale(1);
+    }
+
+    canvas {
+      z-index: 1;
+      position: absolute;
+    }
+  }
+
+  &-wrap-box,
+  &-canvas {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.discoloration-hide {
+  display: block;
+  height: 0;
+  position: absolute;
+  width: 0;
+}
+
+.discoloration-hidden {
+  display: none !important;
+}
