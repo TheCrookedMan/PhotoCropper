@@ -5,7 +5,8 @@ module.exports = {
   entry: './src/main.js',
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: "umd"
   },
   module:{
     rules: [{
@@ -23,7 +24,13 @@ module.exports = {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env'],
+          presets: [
+            ['@babel/preset-env', {
+              "targets": {
+                "esmodules": true
+              }
+            }]
+          ],
           plugins: ['@babel/transform-runtime']
         }
       }
