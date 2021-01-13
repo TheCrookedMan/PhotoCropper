@@ -1,6 +1,6 @@
 {
   "name": "@thecrookedman/photo-cropper",
-  "version": "1.0.75",
+  "version": "1.0.76",
   "description": "",
   "main": "./dist/main.bundle.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.0.0",
     "file-loader": "^4.0.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.0.0-alpha.7",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "node-sass": "^4.12.0",

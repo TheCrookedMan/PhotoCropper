@@ -7,11 +7,11 @@ export default {
       pointers,
       doodleContext,
       canvasData,
+      containerData,
       options
     } = this;
 
-    const pointer = pointers[Object.keys(pointers)[0]];
-    
+    const pointer = pointers[Object.keys(pointers)[0]]; 
     let {
         startX,
         startY,
@@ -19,10 +19,10 @@ export default {
         endY
     } = pointer;
 
-    startX -= canvasData.left;
-    startY -= canvasData.top;
-    endX -= canvasData.left;
-    endY -= canvasData.top;
+    startX -= canvasData.left + containerData.x;
+    startY -= canvasData.top + containerData.y;
+    endX -= canvasData.left + containerData.x;
+    endY -= canvasData.top + containerData.y;
 
     doodleContext.beginPath()
     doodleContext.moveTo(startX, startY);

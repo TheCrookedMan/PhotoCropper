@@ -5,11 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    
     <title>photo-cropper</title>
     <style>
         body{
             margin: 0;
+        }
+        .container{
+          height: 667px;
+          width: 475px;
+          position: relative;
+          border: 1px solid #000;
+          margin: 100px;
         }
     </style>
 </head>
@@ -33,7 +39,7 @@
       </div>
       <div class="beautify-body" ref="body" id="body">
       </div>
-      <div class="beautify-footer" ref="footer">
+      <!-- <div class="beautify-footer" ref="footer">
         <div class="main-control-panel flexbox" ref="mainControlPanel">
           <div class="flex-item" @click.stop.prevent="crop">
             <i class="iconfont icon-crop"></i>
@@ -173,7 +179,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- <div class="btn-pre" v-if="currentIndex > 0 && showPreAndNextBtn">
         <i class="iconfont icon-arrow_left1" @click.stop.prevent="preImage"></i>

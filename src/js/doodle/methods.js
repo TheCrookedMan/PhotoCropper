@@ -94,7 +94,6 @@ export default {
         exportContext.lineWidth = LG * ratio;
       }
       exportContext.lineJoin = 'round';
-      
       const {
         startX,
         startY,

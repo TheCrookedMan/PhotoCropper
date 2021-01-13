@@ -141,7 +141,7 @@ export default {
 
       canvasData.left -= (width - canvasData.width) / 2;
       canvasData.top -= (height - canvasData.height) / 2;
-      
+
       canvasData.width = width;
       canvasData.height = height;
       canvasData.aspectRatio = naturalWidth / naturalHeight;
