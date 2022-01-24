@@ -23,7 +23,8 @@ export default {
       container,
       doodle,
     } = this;
-    let containerDataPoints = container.getClientRects()[0]
+    let containerDataPoints = container.getBoundingClientRect()
+
     const containerData = {
       width: container.offsetWidth,
       height: container.offsetHeight,

@@ -24,10 +24,10 @@ export const EVENT_POINTER_UP = HAS_POINTER_EVENT ? 'pointerup pointercancel' : 
 
 //canvas 图片留边的边框宽度
 export const BORDER_WIDTH = 5;
-export const clientWidth = document.body.clientWidth - 2*BORDER_WIDTH;
-export const S = Math.ceil(clientWidth * 0.01);
-export const M = Math.ceil(clientWidth * 0.03);
-export const L = Math.ceil(clientWidth * 0.04);
-export const XL = Math.ceil(clientWidth * 0.05);
-export const XXL = Math.ceil(clientWidth * 0.06);
-export const LG = Math.ceil(clientWidth * 0.1);
+export let clientWidth = (document.body.clientWidth || window.screen.availWidth) - 2*BORDER_WIDTH;
+export let S = Math.ceil(clientWidth * 0.01);
+export let M = Math.ceil(clientWidth * 0.03);
+export let L = Math.ceil(clientWidth * 0.04);
+export let XL = Math.ceil(clientWidth * 0.05);
+export let XXL = Math.ceil(clientWidth * 0.06);
+export let LG = Math.ceil(clientWidth * 0.1);

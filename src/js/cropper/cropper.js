@@ -42,7 +42,6 @@ class Cropper {
 
         this.element = element;
         this.options = assign({}, DEFAULTS, isPlainObject(options) && options);
-        console.log("this.options::::",this.options);
         this.pointers = {};
         this.sized = false;
         this.sizing = false;

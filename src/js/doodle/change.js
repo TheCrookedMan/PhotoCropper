@@ -18,7 +18,6 @@ export default {
         endX,
         endY
     } = pointer;
-
     startX -= canvasData.left + containerData.x;
     startY -= canvasData.top + containerData.y;
     endX -= canvasData.left + containerData.x;
@@ -43,7 +42,6 @@ export default {
       toolColor: options.toolColor,
       pencilSize: options.pencilSize
     });
-
     // 覆盖开始坐标
     forEach(pointers, (p) => {
         if(!p){

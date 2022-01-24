@@ -13,7 +13,6 @@ export default {
       element,
       doodleCanvas
     } = this;
-    
     addListener(doodleCanvas, EVENT_POINTER_DOWN, (this.onDoodleStart = this.doodleStart.bind(this)));
     addListener(doodleCanvas, EVENT_POINTER_MOVE, (this.onDoodleMove = this.doodleMove.bind(this)));
     addListener(doodleCanvas, EVENT_POINTER_UP, (this.onDoodleEnd = this.doodleEnd.bind(this)));

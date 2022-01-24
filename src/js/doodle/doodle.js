@@ -59,7 +59,7 @@ class Doodle{
       }
 
       element[NAMESPACE] = this;
-
+      
       if (tagName === 'img') {
         this.isImg = true;
 

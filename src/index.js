@@ -18,18 +18,18 @@ import DisColoration from './js/discoloration/discoloration';
 let img = document.createElement('img')
 
 // img.src = 'http://peidian-sit.oss-cn-shanghai.aliyuncs.com/PROBLEM/20190725/oQ6FP1urwDjUq8DfMqNSzsixOcP8/1564020476671-modify.JPG';
-img.src = __test2
+img.src = 'https://peidian-dev.oss-cn-shanghai.aliyuncs.com/PROBLEM/202103/31/0/0/1617182882992.PNG?x-oss-process=style/problem_cropper_image_view'
 img.id = 'image'
 
 document.getElementById("body").appendChild(img)
 // var disc = new DisColoration(document.getElementById('image'),{
 //   checkCrossOrigin:true
 // })
-var cropper = new Cropper(document.getElementById('image'),{
-    checkCrossOrigin:true,
-    cropMinH: 20,
-    initCropBoxWidth: 200,
-})
+// var cropper = new Cropper(document.getElementById('image'),{
+//     checkCrossOrigin:true,
+//     cropMinH: 20,
+//     initCropBoxWidth: 200,
+// })
 // document.getElementById('reverseX').onclick = function () {
 //     cropper.scaleX();
 // }
@@ -58,16 +58,17 @@ var cropper = new Cropper(document.getElementById('image'),{
 //     // checkCrossOrigin:true
 //   })
 // }
-// let doodle = new Doodle(document.getElementById('image'), {
-//     outPutImageDefinition: 0.1
-// });
-// document.getElementById('getDoodleCanvas').onclick = function () {
-//   console.log(doodle.toDataURL());
-//   // let img = document.createElement('img');
-//   // img.src = doodle.toDataURL();
-//   // document.getElementById("body").append(img);
-//   // doodle.destroy();
-// }
+let doodle = new Doodle(document.getElementById('image'), {
+    outPutImageDefinition: 0.1,
+      checkCrossOrigin:true
+});
+document.getElementById('getDoodleCanvas').onclick = function () {
+  console.log(doodle.toDataURL());
+  // let img = document.createElement('img');
+  // img.src = doodle.toDataURL();
+  // document.getElementById("body").append(img);
+  // doodle.destroy();
+}
 
 // document.getElementById('rubber').onclick = function () {
 //   doodle.rubber()
