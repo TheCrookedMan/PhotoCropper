@@ -60,8 +60,14 @@ document.getElementById("body").appendChild(img)
 // }
 let doodle = new Doodle(document.getElementById('image'), {
     outPutImageDefinition: 0.1,
-      checkCrossOrigin:true
+    checkCrossOrigin:true,
+    pencilSize:'S',
+    scale:1,
+    toolChange: function(params){
+      console.log(`tool is ${params}`)
+    }
 });
+
 document.getElementById('getDoodleCanvas').onclick = function () {
   console.log(doodle.toDataURL());
   // let img = document.createElement('img');
@@ -77,3 +83,19 @@ document.getElementById('getDoodleCanvas').onclick = function () {
 //   // document.getElementById("body").append(img);
 //   // doodle.destroy();
 // }
+
+document.getElementById('enlarge').onclick = function () {
+  doodle.enlarge()
+}
+
+document.getElementById('reduce').onclick = function () {
+  doodle.reduce()
+}
+
+document.getElementById('chooseDoodleSize_S').onclick = function () {
+  doodle.pencil()
+  doodle.pencilSize('S')
+}
+
+
+

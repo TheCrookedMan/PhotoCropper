@@ -79,12 +79,12 @@ export default {
       aspectRatio,
       naturalWidth,
       naturalHeight,
-      width: canvasWidth,
-      height: canvasHeight,
+      width: canvasWidth * this.scale,
+      height: canvasHeight  * this.scale,
     };
 
-    canvasData.left = (containerData.width - canvasWidth) / 2;
-    canvasData.top = (containerData.height - canvasHeight) / 2;
+    canvasData.left = (containerData.width - canvasData.width) / 2;
+    canvasData.top = (containerData.height - canvasData.height) / 2;
 
     this.canvasData = canvasData;
 
@@ -117,6 +117,8 @@ export default {
     const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
     const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
 
+    // document.getElementById('pointerId').textContent = width + '::::' + height
+
     this.imageData = assign(imageData, {
       width,
       height,
@@ -134,23 +136,23 @@ export default {
 
   },
   initDoodleCanvas(){
-      const {
-        canvas,
-        canvasData
-      } = this;
+    const {
+      canvas,
+      canvasData
+    } = this;
 
-      let doodleCanvas = document.createElement('canvas');
-      doodleCanvas.width = canvasData.width;
-      doodleCanvas.height = canvasData.height;
+    let doodleCanvas = document.createElement('canvas');
+    doodleCanvas.width = canvasData.width;
+    doodleCanvas.height = canvasData.height;
 
-      canvas.appendChild(doodleCanvas);
+    canvas.appendChild(doodleCanvas);
 
-      let doodleContext = doodleCanvas.getContext('2d');
+    let doodleContext = doodleCanvas.getContext('2d');
 
-      this.doodleContext = doodleContext;
-      this.doodleCanvas = doodleCanvas;
+    this.doodleContext = doodleContext;
+    this.doodleCanvas = doodleCanvas;
 
-      this.renderDoodleContext();
+    this.renderDoodleContext();
   },
   renderDoodleContext(){
     const {
@@ -168,19 +170,19 @@ export default {
 
       switch (pencilSize) {
         case 'S':
-          doodleContext.lineWidth = S;
+          doodleContext.lineWidth = this.calcPencilSize(S);
           break;
         case 'M':
-          doodleContext.lineWidth = M;
+          doodleContext.lineWidth = this.calcPencilSize(M);
           break;
         case 'L':
-          doodleContext.lineWidth = L;
+          doodleContext.lineWidth = this.calcPencilSize(L);
           break;
         case 'XL':
-          doodleContext.lineWidth = XL;
+          doodleContext.lineWidth = this.calcPencilSize(XL);
           break;
         case 'XXL':
-          doodleContext.lineWidth = XXL;
+          doodleContext.lineWidth = this.calcPencilSize(XXL);
           break;
         default:
           break;
@@ -191,5 +193,8 @@ export default {
       doodleContext.lineWidth = LG;
     }
     doodleContext.lineJoin = 'round';
+  },
+  calcPencilSize(num){
+    return this.scale > 1 ? num/this.scale : num*this.scale;
   }
 }

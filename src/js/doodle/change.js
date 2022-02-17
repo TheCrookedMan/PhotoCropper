@@ -8,20 +8,30 @@ export default {
       doodleContext,
       canvasData,
       containerData,
-      options
+      options,
+      doodle
     } = this;
+    if(options.tool === "zoom"){
+      return
+    }
+    const pointer = pointers[Object.keys(pointers)[0]];
 
-    const pointer = pointers[Object.keys(pointers)[0]]; 
     let {
         startX,
         startY,
         endX,
         endY
     } = pointer;
-    startX -= canvasData.left + containerData.x;
-    startY -= canvasData.top + containerData.y;
-    endX -= canvasData.left + containerData.x;
-    endY -= canvasData.top + containerData.y;
+
+    startX -= canvasData.left - doodle.scrollLeft + containerData.x;
+    startY -= canvasData.top - doodle.scrollTop + containerData.y;
+    endX -= canvasData.left - doodle.scrollLeft + containerData.x;
+    endY -= canvasData.top - doodle.scrollTop + containerData.y;
+
+    startX = startX/this.scale
+    startY = startY/this.scale
+    endX = endX/this.scale
+    endY = endY/this.scale
 
     doodleContext.beginPath()
     doodleContext.moveTo(startX, startY);
@@ -33,10 +43,10 @@ export default {
     //保存画笔每一帧的数据
     this.doodleData.push({
       pointer:{
-        startX: startX,
-        startY: startY,
-        endX: endX,
-        endY: endY
+        startX: startX/this.scale,
+        startY: startY/this.scale,
+        endX: endX/this.scale,
+        endY: endY/this.scale
       },
       tool: options.tool,
       toolColor: options.toolColor,
@@ -44,11 +54,27 @@ export default {
     });
     // 覆盖开始坐标
     forEach(pointers, (p) => {
-        if(!p){
-            return;
-        }
+      if(!p){
+        return;
+      }
       p.startX = p.endX;
       p.startY = p.endY;
     });
+  },
+  doubleFinger(){
+    const {
+      doublePointers,
+      doubleFingerRange
+    } = this;
+    const event1 = doublePointers[0];
+    const event2 = doublePointers[1];
+    let range = Math.abs(event2.endY - event1.endY);
+    if(doubleFingerRange < range){
+      this.enlarge()
+    } else {
+      this.reduce()
+    }
+
+    this.doubleFingerRange = range;
   }
 }

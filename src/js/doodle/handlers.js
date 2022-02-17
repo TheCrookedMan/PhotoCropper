@@ -8,48 +8,57 @@ import {
 export default {
   doodleStart(event) {
     const {
-      pointers
+      pointers,
+      doublePointers,
+      options
     } = this;
 
-    if (event.changedTouches) {
+    if (event.targetTouches.length === 1 && options.tool !== 'zoom') {
       // Handle touch event
-      forEach(event.changedTouches, (touch) => {
-        pointers[0] = getPointer(touch);
+      pointers[0] = getPointer(event.targetTouches[0]);
+      event.preventDefault();
+      event.stopPropagation();
+    } else if(event.targetTouches.length === 2){
+      let i = 0;
+      forEach(event.targetTouches, (touch) => {
+        doublePointers[i] = getPointer(touch);
+        i++
       });
-    } else {
-      // Handle mouse event and pointer event
-      pointers[0] = getPointer(event);
+      event.preventDefault();
+      event.stopPropagation();
     }
-
     this.action = true;
-
-    event.preventDefault();
-    event.stopPropagation();
   },
   doodleMove(event) {
-  
     const {
       pointers,
-      action
+      action,
+      doublePointers,
+      options
     } = this;
 
     if (!action) {
       return;
     }
 
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.changedTouches) {
-      forEach(event.changedTouches, (touch) => {
+    if (event.targetTouches.length === 1 && options.tool !== 'zoom') {
+      assign(pointers[0] || {}, getPointer(event.targetTouches[0], true));
+      this.change(event);
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (event.targetTouches.length === 2) {
+      let i = 0;
+      forEach(event.targetTouches, (touch) => {
         // The first parameter should not be undefined (#432)
-        assign(pointers[0] || {}, getPointer(touch, true));
+        assign(doublePointers[i] || {}, getPointer(touch, true));
+        i++
       });
-    } else {
-      assign(pointers[0] || {}, getPointer(event, true));
+      this.doubleFinger(event)
+      event.preventDefault();
+      event.stopPropagation();
     }
+
     
-    this.change(event);
   },
   doodleEnd(event) {
     const {
@@ -57,9 +66,13 @@ export default {
       action
     } = this;
 
-    if (event.changedTouches) {
-      forEach(event.changedTouches, (touch) => {
-        delete pointers[0];
+    this.doubleFingerRange = 0
+    if (event.targetTouches) {
+      let i = 0;
+      forEach(event.targetTouches, (touch) => {
+        delete pointers[i];
+        delete doublePointers[i];
+        i++
       });
     } else {
       delete pointers[0];

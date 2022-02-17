@@ -1,6 +1,6 @@
 {
   "name": "@thecrookedman/photo-cropper",
-  "version": "1.0.84",
+  "version": "1.0.86",
   "description": "",
   "main": "./dist/main.bundle.js",
   "scripts": {

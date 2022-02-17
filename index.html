@@ -11,11 +11,11 @@
             margin: 0;
         }
         .container{
-          height: 667px;
-          width: 475px;
+          /* height: 667px;
+          width: 475px; */
           position: relative;
           border: 1px solid #000;
-          margin: 100px;
+          /* margin: 100px; */
         }
     </style>
 </head>
@@ -130,7 +130,7 @@
                 <p>画笔大小</p>
               </div>
               <div class="doodle-operation-item doodle-circle">
-                <div class="doodle-circle-item" @click.stop.prevent="chooseDoodleSize('S')">
+                <div class="doodle-circle-item" id="chooseDoodleSize_S" @click.stop.prevent="chooseDoodleSize('S')">
                   <span class="circle"
                     :class="{checked: 'S' === currentDoodleSize && 'pencil' === currentDoodleTool}"></span>
                 </div>
@@ -149,6 +149,12 @@
                 <div class="doodle-circle-item" @click.stop.prevent="chooseDoodleSize('XXL')">
                   <span class="circle"
                     :class="{checked: 'XXL' === currentDoodleSize && 'pencil' === currentDoodleTool}"></span>
+                </div>
+                <div class="doodle-circle-item" id="enlarge">
+                  <span>放大</span>
+                </div>
+                <div class="doodle-circle-item" id="reduce">
+                  <span>缩小</span>
                 </div>
               </div>
               <div class="doodle-operation-item doodle-rubber" id="rubber"
@@ -179,8 +185,7 @@
             </div>
           </div>
         </div>
-      </div> 
-
+      </div>
       <!-- <div class="btn-pre" v-if="currentIndex > 0 && showPreAndNextBtn">
         <i class="iconfont icon-arrow_left1" @click.stop.prevent="preImage"></i>
       </div>

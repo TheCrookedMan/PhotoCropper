@@ -43,6 +43,32 @@ class Doodle{
       // this.pointers = {};
       this.pointers = [];
       this.doodleData = [];
+      //双指手势
+      this.doublePointers = [];
+      //双指之间的距离
+      this.doubleFingerRange = 0;
+
+      //初始缩放值
+      this.scale = this.options.scale
+      //最大放大倍数
+      this.maxScale = this.options.maxScale
+      //最小缩小倍数
+      this.minScale = this.options.minScale
+      //每次放大或者缩小的递进倍数
+      this.stepScaleNumber = this.options.stepScaleNumber
+      //tool 变更事件
+      this.toolChange = this.options.toolChange
+
+      let _tool = null;
+      Object.defineProperty(this.options,"tool",{
+        get(){
+          return _tool
+        },
+        set(val){
+          !!this.toolChange && this.toolChange(val)
+          _tool = val;
+        }
+      });
 
       this.init()
     }
@@ -59,7 +85,7 @@ class Doodle{
       }
 
       element[NAMESPACE] = this;
-      
+
       if (tagName === 'img') {
         this.isImg = true;
 

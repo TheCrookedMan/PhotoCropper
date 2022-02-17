@@ -2,8 +2,12 @@ import {
   getSourceCanvas,
   forEach,
   removeClass,
-  normalizeDecimalNumber
+  normalizeDecimalNumber,
+  setStyle,
+  assign,
+  getTransforms
 } from '../utilities';
+
 
 import {
   S,
@@ -24,6 +28,9 @@ export default {
   rubber() {
     this.options.tool = 'rubber';
     this.renderDoodleContext();
+  },
+  zoom(){
+    this.options.tool = "zoom"
   },
   pencilColor(color) {
     this.options.toolColor = color;
@@ -125,21 +132,43 @@ export default {
     this.getDoodleCanvas().toBlob(callback, imageType, imageDefinition);
   },
   destroy() {
-      const {
-        element
-      } = this;
+    const {
+      element
+    } = this;
 
-      if (!element[NAMESPACE]) {
-        return this;
-      }
-
-      element[NAMESPACE] = undefined;
-      element.src = this.originalUrl;
-      this.doodleData = [];
-      //取消绑定事件
-      this.unbind();
-
-      this.doodle.parentNode.removeChild(this.doodle);
-      removeClass(this.element, CLASS_HIDDEN);
+    if (!element[NAMESPACE]) {
+      return this;
     }
+
+    element[NAMESPACE] = undefined;
+    element.src = this.originalUrl;
+    this.doodleData = [];
+    //取消绑定事件
+    this.unbind();
+
+    this.doodle.parentNode.removeChild(this.doodle);
+    removeClass(this.element, CLASS_HIDDEN);
+  },
+  enlarge(){
+    this.options.tool = 'zoom'
+    this.scale += this.stepScaleNumber
+    this.scale = this.scale > this.maxScale ? this.maxScale:this.scale;
+
+    this.initContainer();
+    //初始化canvas区域
+    this.initCanvas();
+
+    this.pencilSize(this.options.pencilSize)
+  },
+  reduce(){
+    this.options.tool = 'zoom'
+    this.scale -= this.stepScaleNumber
+    this.scale = this.scale < this.minScale ? this.minScale:this.scale;
+
+    this.initContainer();
+    //初始化canvas区域
+    this.initCanvas();
+
+    this.pencilSize(this.options.pencilSize)
+  }
 }
