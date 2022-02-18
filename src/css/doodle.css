@@ -29,9 +29,6 @@
   right: 0;
   top: 0;
 }
-.doodle-wrap-box {
-  overflow: scroll;
-}
 .doodle-hide {
   display: block;
   height: 0;

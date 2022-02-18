@@ -13,21 +13,19 @@ export default {
       options
     } = this;
 
-    if (event.targetTouches.length === 1 && options.tool !== 'zoom') {
+    if (event.targetTouches.length === 1) {
       // Handle touch event
       pointers[0] = getPointer(event.targetTouches[0]);
-      event.preventDefault();
-      event.stopPropagation();
     } else if(event.targetTouches.length === 2){
       let i = 0;
       forEach(event.targetTouches, (touch) => {
         doublePointers[i] = getPointer(touch);
         i++
       });
-      event.preventDefault();
-      event.stopPropagation();
     }
     this.action = true;
+    event.preventDefault();
+    event.stopPropagation();
   },
   doodleMove(event) {
     const {
@@ -41,11 +39,9 @@ export default {
       return;
     }
 
-    if (event.targetTouches.length === 1 && options.tool !== 'zoom') {
+    if (event.targetTouches.length === 1) {
       assign(pointers[0] || {}, getPointer(event.targetTouches[0], true));
       this.change(event);
-      event.preventDefault();
-      event.stopPropagation();
     } else if (event.targetTouches.length === 2) {
       let i = 0;
       forEach(event.targetTouches, (touch) => {
@@ -54,16 +50,15 @@ export default {
         i++
       });
       this.doubleFinger(event)
-      event.preventDefault();
-      event.stopPropagation();
     }
-
-    
+    event.preventDefault();
+    event.stopPropagation();
   },
   doodleEnd(event) {
     const {
       pointers,
-      action
+      action,
+      doublePointers
     } = this;
 
     this.doubleFingerRange = 0

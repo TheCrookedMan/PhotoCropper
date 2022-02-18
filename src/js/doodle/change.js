@@ -9,7 +9,7 @@ export default {
       canvasData,
       containerData,
       options,
-      doodle
+      doodleWrapBox
     } = this;
     if(options.tool === "zoom"){
       return
@@ -22,11 +22,10 @@ export default {
         endX,
         endY
     } = pointer;
-
-    startX -= canvasData.left - doodle.scrollLeft + containerData.x;
-    startY -= canvasData.top - doodle.scrollTop + containerData.y;
-    endX -= canvasData.left - doodle.scrollLeft + containerData.x;
-    endY -= canvasData.top - doodle.scrollTop + containerData.y;
+    startX -= canvasData.left - doodleWrapBox.scrollLeft + containerData.x;
+    startY -= canvasData.top - doodleWrapBox.scrollTop + containerData.y;
+    endX -= canvasData.left - doodleWrapBox.scrollLeft + containerData.x;
+    endY -= canvasData.top - doodleWrapBox.scrollTop + containerData.y;
 
     startX = startX/this.scale
     startY = startY/this.scale

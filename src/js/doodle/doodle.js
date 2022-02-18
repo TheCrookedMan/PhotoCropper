@@ -320,11 +320,13 @@ class Doodle{
 
       const doodle = template.querySelector(`.${NAMESPACE}-container`);
       const canvas = doodle.querySelector(`.${NAMESPACE}-canvas`);
+      const doodleWrapBox = template.querySelector(`.${NAMESPACE}-wrap-box`);
       // const doodleCanvas = doodle.querySelector('#doodleCanvas');
 
       this.container = container;
       this.doodle = doodle;
       this.canvas = canvas;
+      this.doodleWrapBox = doodleWrapBox;
       // this.doodleCanvas = doodleCanvas;
 
       canvas.appendChild(image);
