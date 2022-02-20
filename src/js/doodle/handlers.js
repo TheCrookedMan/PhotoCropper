@@ -13,7 +13,9 @@ export default {
       options
     } = this;
 
-    if (event.targetTouches.length === 1) {
+    if(!event.targetTouches){
+      pointers[0] = getPointer(event);
+    } else if (event.targetTouches.length === 1) {
       // Handle touch event
       pointers[0] = getPointer(event.targetTouches[0]);
     } else if(event.targetTouches.length === 2){
@@ -39,7 +41,10 @@ export default {
       return;
     }
 
-    if (event.targetTouches.length === 1) {
+    if(!event.targetTouches){
+      assign(pointers[0] || {}, getPointer(event, true));
+      this.change(event);
+    } else if (event.targetTouches.length === 1) {
       assign(pointers[0] || {}, getPointer(event.targetTouches[0], true));
       this.change(event);
     } else if (event.targetTouches.length === 2) {
@@ -58,9 +63,14 @@ export default {
     const {
       pointers,
       action,
-      doublePointers
+      doublePointers,
+      options,
+      canvas
     } = this;
-
+    if(options.tool === 'zoom'){
+      this.canvasData.left = canvas.getBoundingClientRect().left
+      this.canvasData.top = canvas.getBoundingClientRect().top
+    }
     this.doubleFingerRange = 0
     if (event.targetTouches) {
       let i = 0;

@@ -55,6 +55,12 @@ export default {
     if (!window.HTMLCanvasElement) {
       return null;
     }
+    //重置
+    if(this.scale !== 1){
+      this.scale = 1;
+      //重绘
+      this.reDraw()
+    }
     let {
       canvasData,
       doodleData
@@ -153,18 +159,17 @@ export default {
     this.options.tool = 'zoom'
     this.scale += this.stepScaleNumber
     this.scale = this.scale > this.maxScale ? this.maxScale:this.scale;
-
-    this.initContainer();
-    //初始化canvas区域
-    this.initCanvas();
-
-    this.pencilSize(this.options.pencilSize)
+    //重绘
+    this.reDraw()
   },
   reduce(){
     this.options.tool = 'zoom'
     this.scale -= this.stepScaleNumber
     this.scale = this.scale < this.minScale ? this.minScale:this.scale;
-
+    //重绘
+    this.reDraw()
+  },
+  reDraw(){
     this.initContainer();
     //初始化canvas区域
     this.initCanvas();
