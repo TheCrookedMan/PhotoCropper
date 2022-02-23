@@ -81,26 +81,7 @@ export default {
       if (I.tool === 'pencil') {
         exportContext.globalCompositeOperation = "source-over";
         exportContext.strokeStyle = I.toolColor;
-
-        switch (I.pencilSize) {
-          case 'S':
-            exportContext.lineWidth = S * ratio;
-            break;
-          case 'M':
-            exportContext.lineWidth = M * ratio;
-            break;
-          case 'L':
-            exportContext.lineWidth = L * ratio;
-            break;
-          case 'XL':
-            exportContext.lineWidth = XL * ratio;
-            break;
-          case 'XXL':
-            exportContext.lineWidth = XXL * ratio;
-            break;
-          default:
-            break;
-        }
+        exportContext.lineWidth = I.pencilSize;
       } else if (I.tool === 'rubber') {
         exportContext.globalCompositeOperation = "destination-out";
         exportContext.strokeStyle = '#ffffff';

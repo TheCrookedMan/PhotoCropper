@@ -62,6 +62,7 @@ let doodle = new Doodle(document.getElementById('image'), {
     outPutImageDefinition: 0.1,
     checkCrossOrigin:true,
     pencilSize:'S',
+    toolColor: '#ed475e',
     scale:1,
     toolChange: function(params){
       console.log(`tool is ${params}`)
@@ -96,6 +97,13 @@ document.getElementById('chooseDoodleSize_S').onclick = function () {
   doodle.pencil()
   doodle.pencilSize('S')
 }
+
+document.getElementById('chooseDoodleSize_XXL').onclick = function () {
+  doodle.pencilSize('XXL')
+  doodle.pencil()
+}
+
+
 
 
 

@@ -59,7 +59,7 @@ class Doodle{
       //tool 变更事件
       this.toolChange = this.options.toolChange
 
-      let _tool = null;
+      let _tool = this.options.tool;
       Object.defineProperty(this.options,"tool",{
         get(){
           return _tool

@@ -88,7 +88,7 @@ export default {
       },
       tool: options.tool,
       toolColor: options.toolColor,
-      pencilSize: options.pencilSize
+      pencilSize: this.doodleContext.lineWidth
     });
     // 覆盖开始坐标
     forEach(pointers, (p) => {
