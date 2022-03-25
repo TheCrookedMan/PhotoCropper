@@ -52,7 +52,11 @@ export default {
      minHeight = 0,
    */
   getDoodleCanvas(options = {}) {
-    if (!window.HTMLCanvasElement) {
+    let {
+      canvasData,
+      doodleData
+    } = this;
+    if (!window.HTMLCanvasElement || doodleData.length === 0) {
       return null;
     }
     //重置
@@ -61,10 +65,6 @@ export default {
       //重绘
       this.reDraw()
     }
-    let {
-      canvasData,
-      doodleData
-    } = this;
 
     canvasData.top = normalizeDecimalNumber(canvasData.top)
 
@@ -81,7 +81,7 @@ export default {
       if (I.tool === 'pencil') {
         exportContext.globalCompositeOperation = "source-over";
         exportContext.strokeStyle = I.toolColor;
-        exportContext.lineWidth = I.pencilSize;
+        exportContext.lineWidth = I.pencilSize * ratio;
       } else if (I.tool === 'rubber') {
         exportContext.globalCompositeOperation = "destination-out";
         exportContext.strokeStyle = '#ffffff';
