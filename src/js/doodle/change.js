@@ -66,6 +66,20 @@ export default {
     endX -= canvasData.left + containerData.x;
     endY -= canvasData.top + containerData.y;
 
+     //保存画笔每一帧的数据
+     this.doodleData.push({
+      pointer:{
+        startX,
+        startY,
+        endX,
+        endY,
+        scale: this.scale
+      },
+      tool: options.tool,
+      toolColor: options.toolColor,
+      pencilSize: this.doodleContext.lineWidth
+    });
+
     startX = startX/this.scale
     startY = startY/this.scale
     endX = endX/this.scale
@@ -78,18 +92,6 @@ export default {
     doodleContext.closePath();
     doodleContext.stroke();
 
-    //保存画笔每一帧的数据
-    this.doodleData.push({
-      pointer:{
-        startX,
-        startY,
-        endX,
-        endY
-      },
-      tool: options.tool,
-      toolColor: options.toolColor,
-      pencilSize: this.doodleContext.lineWidth
-    });
     // 覆盖开始坐标
     forEach(pointers, (p) => {
       if(!p){

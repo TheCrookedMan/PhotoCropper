@@ -54,10 +54,18 @@ export default {
   getDoodleCanvas(options = {}) {
     let {
       canvasData,
-      doodleData
+      doodleData,
+      containerData
     } = this;
     if (!window.HTMLCanvasElement || doodleData.length === 0) {
-      return null;
+      return {
+        toDataURL:()=>{
+          return null
+        },
+        toBlob:()=>{
+          return null
+        }
+      };
     }
     //重置
     if(this.scale !== 1){
@@ -76,7 +84,8 @@ export default {
     exportCanvas.height = normalizeDecimalNumber(source.height);
     const exportContext = exportCanvas.getContext('2d');
     //图片压缩比
-    const ratio = canvasData.naturalWidth / canvasData.width;
+    const ratio = canvasData.naturalWidth / containerData.width;
+    debugger
     forEach(doodleData, (I, i) => {
       if (I.tool === 'pencil') {
         exportContext.globalCompositeOperation = "source-over";
@@ -88,15 +97,22 @@ export default {
         exportContext.lineWidth = LG * ratio;
       }
       exportContext.lineJoin = 'round';
-      const {
+      let {
         startX,
         startY,
         endX,
-        endY
+        endY,
+        scale
       } = I.pointer;
+
+      startX = ((startX/scale) *ratio)
+      startY = ((startY/scale)*ratio)
+      endX = ((endX/scale)*ratio)
+      endY = ((endY/scale)*ratio)
+
       exportContext.beginPath();
-      exportContext.moveTo(startX * ratio, startY * ratio);
-      exportContext.lineTo(endX * ratio, endY * ratio);
+      exportContext.moveTo(startX, startY);
+      exportContext.lineTo(endX, endY);
       exportContext.closePath();
       exportContext.stroke();
     })
