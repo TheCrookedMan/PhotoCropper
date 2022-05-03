@@ -75,7 +75,6 @@ export default {
     }
 
     canvasData.top = normalizeDecimalNumber(canvasData.top)
-
     const source = getSourceCanvas(this.image, this.imageData, canvasData, options);
     const sourceContext = source.getContext('2d');
 
@@ -84,8 +83,8 @@ export default {
     exportCanvas.height = normalizeDecimalNumber(source.height);
     const exportContext = exportCanvas.getContext('2d');
     //图片压缩比
-    const ratio = canvasData.naturalWidth / containerData.width;
-    debugger
+    const rotated = Math.abs(this.imageData.rotate) % 180 === 90;
+    const ratio = (canvasData.naturalWidth / containerData.width) * (rotated?this.imageData.aspectRatio:1);
     forEach(doodleData, (I, i) => {
       if (I.tool === 'pencil') {
         exportContext.globalCompositeOperation = "source-over";

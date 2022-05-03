@@ -104,8 +104,18 @@ export default {
       canvasData,
       imageData
     } = this;
-    const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
-    const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
+    const rotated = Math.abs(imageData.rotate) % 180 === 90;
+    let width = imageData.naturalWidth;
+    let height = imageData.naturalHeight;
+    if(imageData.naturalWidth > canvasData.width){
+      if(rotated){
+        width = canvasData.height
+        height = imageData.naturalWidth * (canvasData.height / imageData.naturalHeight)
+      }else {
+        width = canvasData.width
+        height = imageData.naturalHeight * (canvasData.width / imageData.naturalWidth)
+      }
+    }
 
     this.imageData = assign(imageData, {
       width,

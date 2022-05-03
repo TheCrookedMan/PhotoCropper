@@ -831,6 +831,18 @@ export function getSourceCanvas(
     minHeight = 0,
   },
 ) {
+  const rotated = Math.abs(rotate) % 180 === 90;
+  if(rotated){
+    let _imageNaturalWidth = imageNaturalWidth;
+    let _imageNaturalHeight = imageNaturalHeight;
+    let _naturalWidth = naturalWidth;
+    let _naturalHeight = naturalHeight;
+    imageNaturalWidth = _imageNaturalHeight;
+    imageNaturalHeight = _imageNaturalWidth;
+    naturalWidth = _naturalHeight;
+    naturalHeight = _naturalWidth;
+  }
+  // debugger
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   const maxSizes = getAdjustedSizes({
@@ -872,7 +884,6 @@ export function getSourceCanvas(
     destWidth,
     destHeight,
   ];
-
   canvas.width = normalizeDecimalNumber(width);
   canvas.height = normalizeDecimalNumber(height);
   context.fillStyle = fillColor;
@@ -886,4 +897,113 @@ export function getSourceCanvas(
   context.drawImage(image, ...params.map(param => Math.floor(normalizeDecimalNumber(param))));
   context.restore();
   return canvas;
+}
+
+/**
+ * 照片在拍摄时角度不一样，有时会横拍导致图片展示时颠倒，这里做一个转换
+ * 输入图片对象，输出校正后的图片
+ */
+export function autoRegulateImage(url,dataType,callback){
+  const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
+  if (!url) {
+    return;
+  }
+  //如果是base64位的数据，则通过ArrayBuffer来读取性能更好
+  if (REGEXP_DATA_URL_JPEG.test(url)) {
+    read(dataURLToArrayBuffer(url),dataType,callback);
+    return;
+  }
+
+  const xhr = new XMLHttpRequest();
+  // 1. Cross origin requests are only supported for protocol schemes:
+  // http, https, data, chrome, chrome-extension.
+  // 2. Access to XMLHttpRequest from a Data URL will be blocked by CORS policy
+  // in some browsers as IE11 and Safari.
+  xhr.onabort = ()=>{};
+  xhr.onerror = ()=>{};
+  xhr.ontimeout = ()=>{};
+
+  xhr.onprogress = () => {
+    // if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
+    //   xhr.abort();
+    // }
+  };
+
+  xhr.onload = () => {
+    read(xhr.response,dataType,callback);
+  };
+
+  xhr.onloadend = () => {
+  };
+
+  xhr.open('GET', url);
+  xhr.responseType = 'arraybuffer';
+  xhr.withCredentials = true;
+  xhr.send();
+}
+
+function read(arrayBuffer,dataType,callback){
+  const MIME_TYPE_JPEG = 'image/jpeg';
+  var url;
+  const orientation = resetAndGetOrientation(arrayBuffer);
+  let rotate = 0;
+  if (orientation > 1) {
+    // Generate a new URL which has the default orientation value
+    url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
+    ({
+      rotate
+    } = parseOrientation(orientation));
+  } else {
+    return !!callback && callback(arrayBuffer2blob(arrayBuffer,MIME_TYPE_JPEG));
+  }
+  const image = document.createElement('img');
+  let imageData,canvasData;
+  image.src = url;
+  image.onload = (result) => {
+    let imageHeight = result.currentTarget.height,imageWidth = result.currentTarget.width;
+    canvasData = {
+      naturalWidth: imageWidth,
+      naturalHeight: imageHeight,
+    }
+    const rotated = Math.abs(rotate) % 180 === 90;
+    const aspectRatio = rotated? imageHeight / imageWidth : imageWidth / imageHeight;
+    if(rotated){
+      imageData = {
+        naturalWidth: imageHeight,
+        naturalHeight: imageWidth,
+        rotate,
+        aspectRatio
+      }
+    } else {
+      imageData = {
+        naturalWidth: imageWidth,
+        naturalHeight: imageHeight,
+        rotate,
+        aspectRatio
+      }
+    }
+    if(dataType === 'blob'){
+      !!callback && getSourceCanvas(image,imageData,canvasData,{}).toBlob(callback)
+    } else {
+      !!callback && callback(getSourceCanvas(image,imageData,canvasData,{}).toDataURL())
+    }
+  }
+}
+// base64 转 Bold 方法
+const data2blob = function(data, type) {
+  data = data.split(',')[1];
+  data = window.atob(data);
+  var ia = new Uint8Array(data.length);
+  for (var i = 0; i < data.length; i++) {
+    ia[i] = data.charCodeAt(i);
+  }
+  return new Blob([ia], {
+    type
+  });
+};
+// arrayBuffer 转 Bold 方法
+const arrayBuffer2blob = function(buffer, type) {
+  return new Blob([buffer], {
+    type
+  });
 }

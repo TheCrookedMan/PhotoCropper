@@ -48,12 +48,11 @@ export default {
     const rotated = Math.abs(imageData.rotate) % 180 === 90;
     const naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
     const naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
-    const aspectRatio = naturalWidth / naturalHeight;
+    const aspectRatio = rotated? naturalHeight / naturalWidth : naturalWidth / naturalHeight;
     let canvasWidth = containerData.width;
     let canvasHeight = containerData.height;
     //容器宽高比
     const canvasAspectRatio = canvasWidth / canvasHeight;
-
     //判断图片的宽高比，与容器的宽高比
     if (aspectRatio > canvasAspectRatio) {
       //判断图片宽度是否大于容器宽度
@@ -94,7 +93,7 @@ export default {
 
     setStyle(canvas, assign({
       width: canvasData.width,
-      height: canvasData.height
+      height: canvasData.height,
     }, getTransforms({
       translateX: canvasData.left,
       translateY: canvasData.top
@@ -112,11 +111,20 @@ export default {
   renderImage() {
     const {
       canvasData,
-      imageData
+      imageData,
     } = this;
-    const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
-    const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
-
+    const rotated = Math.abs(imageData.rotate) % 180 === 90;
+    let width = imageData.naturalWidth;
+    let height = imageData.naturalHeight;
+    if(imageData.naturalWidth > canvasData.width){
+      if(rotated){
+        width = canvasData.height
+        height = imageData.naturalWidth * (canvasData.height / imageData.naturalHeight)
+      }else {
+        width = canvasData.width
+        height = imageData.naturalHeight * (canvasData.width / imageData.naturalWidth)
+      }
+    }
     // document.getElementById('pointerId').textContent = width + '::::' + height
 
     this.imageData = assign(imageData, {
@@ -125,7 +133,6 @@ export default {
       left: (canvasData.width - width) / 2,
       top: (canvasData.height - height) / 2,
     });
-
     setStyle(this.image, assign({
       width: imageData.width,
       height: imageData.height,
